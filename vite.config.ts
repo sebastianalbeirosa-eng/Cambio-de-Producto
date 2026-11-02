@@ -1,16 +1,16 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  server: {
-    port: 3000,
-    host: '0.0.0.0',
-    allowedHosts: true,
-    hmr: process.env.DISABLE_HMR !== 'true',
-    watch: process.env.DISABLE_HMR === 'true' ? null : {}
+  // Esta línea es la que necesitas para GitHub Pages
+  base: './', 
+  
+  // Estas configuraciones deben mantenerse para que todo siga funcionando aquí
+  server: { 
+    allowedHosts: true, 
+    hmr: process.env.DISABLE_HMR !== 'true', 
+    watch: process.env.DISABLE_HMR === 'true' ? null : {} 
   },
-  preview: {
-    port: 3000,
-    host: '0.0.0.0',
-    allowedHosts: true
+  preview: { 
+    allowedHosts: true 
   }
 });
