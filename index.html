@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CAMBIO DE PRODUCTO</title>
+    <meta name="description" content="Control de cambio de producto sincronizado para planta de pisos y revestimientos cerámicos.">
+    <meta property="og:title" content="CAMBIO DE PRODUCTO">
+    <meta property="og:description" content="Control de Cambio Sincronizado">
+    <meta property="og:type" content="website">
+
+    <!-- Ciberseguridad Industrial: Directivas de Protección OT -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Dependencias UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-[#0d1117] min-h-screen text-gray-100 font-sans no-select app-body">
+
+    <!-- Contenedor Maestro con Scroll Natural -->
+    <div class="max-w-7xl w-full mx-auto p-2 sm:p-4 md:p-6 flex flex-col min-h-full pb-12 sm:pb-16">
+        <div class="app-master-container bg-[#161b22] shadow-2xl rounded-2xl border border-[#30363d] flex flex-col">
+
+            <!-- ═══════ HEADER ═══════ -->
+            <header class="app-header bg-[#0d1117]/90 backdrop-blur px-3 sm:px-6 py-3 sm:py-4 flex flex-wrap justify-between items-center border-b border-[#30363d] gap-3">
+                <!-- Logo + Título -->
+                <div class="flex items-center gap-3">
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-black text-white tracking-tight flex items-center gap-2 app-title">
+                            CAMBIO DE PRODUCTO
+                            <span class="text-[10px] sm:text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 sm:px-2 py-0.5 rounded font-mono font-bold hidden xs:inline app-badge-plant">HORNO-PLANTA</span>
+                        </h1>
+                        <p class="text-[10px] sm:text-xs text-gray-500 font-medium uppercase tracking-wider app-subtitle">Control de Cambio Sincronizado</p>
+                    </div>
+                </div>
+
+                <!-- Selector de Formato -->
+                <div class="app-format-selector flex items-center bg-[#0d1117] p-1 rounded-xl border border-[#30363d] gap-1 order-3 sm:order-2">
+                    <span class="text-[10px] font-bold text-gray-500 uppercase px-1.5 hidden md:inline app-format-label">Formato:</span>
+                    <button type="button" data-format="45x45" class="format-tab-btn active-format px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all">
+                        45x45
+                    </button>
+                    <button type="button" data-format="33x45" class="format-tab-btn px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">
+                        33x45
+                    </button>
+                    <button type="button" data-format="33x33" class="format-tab-btn px-2.5 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">
+                        33x33
+                    </button>
+                </div>
+
+                <!-- Reloj + Kiosco / Modo Claro-Oscuro -->
+                <div class="flex items-center gap-2 sm:gap-3 order-2 sm:order-3">
+                    <div class="app-clock-box flex items-center gap-2 bg-[#0d1117] px-2.5 sm:px-3.5 py-1.5 rounded-lg border border-[#30363d]">
+                        <span id="reloj-global" class="text-sm sm:text-base font-mono font-bold text-emerald-400 tabular-nums">00:00:00</span>
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                    </div>
+                    <!-- Botón Modo Claro / Oscuro -->
+                    <button id="btnLightMode" type="button" title="Modo Claro" class="app-theme-btn p-2 rounded-lg bg-[#0d1117] border border-[#30363d] text-gray-400 hover:text-emerald-400 hover:border-emerald-500/30 transition flex items-center justify-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ═══════ CUERPO PRINCIPAL ═══════ -->
+            <main class="app-main-grid p-3 sm:p-5 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 bg-[#0d1117]/50">
+
+                <!-- ─── COLUMNA IZQUIERDA: Parámetros (5 cols) ─── -->
+                <div class="lg:col-span-5 flex flex-col gap-4">
+
+                    <!-- Módulo 1: Pedido y Calidad -->
+                    <div class="eco-card p-4 sm:p-5">
+                        <div class="flex flex-wrap justify-between items-center mb-3 gap-2">
+                            <h2 class="eco-section-title">
+                                <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                Medición de Pedido y Calidad
+                            </h2>
+                            <span id="formatBadge" class="text-[10px] sm:text-xs font-semibold px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded whitespace-nowrap app-badge-info">
+                                Piso 45x45 cm | Horno a 850 m²/h
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                            <!-- Hora de Medición -->
+                            <div class="sm:col-span-2">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="eco-label">Hora de Medición</label>
+                                    <button id="btnSetHoraActual" type="button" class="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 underline underline-offset-2 app-btn-ahora">
+                                        [AHORA]
+                                    </button>
+                                </div>
+                                <input type="time" id="horaMedicion" class="eco-input text-base sm:text-lg">
+                            </div>
+
+                            <!-- Metros Faltantes 1ra -->
+                            <div class="pt-2 border-t border-[#30363d]/60 app-field-divider">
+                                <label class="eco-label mb-1 block">Metros Faltantes 1ra (m²)</label>
+                                <input type="number" id="metrosFaltantes" value="6800" min="0" max="200000" step="50" class="eco-input text-base sm:text-lg">
+                            </div>
+
+                            <!-- Calidad de 1ra -->
+                            <div class="pt-2 border-t border-[#30363d]/60 app-field-divider">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="eco-label">Calidad de 1ra (%)</label>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <input type="number" id="calidadPrimera" value="90" min="50" max="100" step="1" class="eco-input text-center text-base sm:text-lg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Módulo 2: Stock en Boxes y Punzones -->
+                    <div class="eco-card p-4 sm:p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <h2 class="eco-section-title">
+                                <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                Stock en Boxes y Punzones
+                            </h2>
+                        </div>
+
+                        <!-- Grid de 2 Columnas idéntico a Módulo 1 y 3 -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3">
+                            <!-- Pisos en Boxes con Steppers -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="eco-label" id="labelM2PorPiso">Pisos en Boxes (6.08 m²/p)</label>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" data-step-target="pisosBoxes" data-step-value="-1" class="btn-stepper px-2.5 py-1.5 text-xs font-bold">-1</button>
+                                    <input type="number" id="pisosBoxes" value="0" min="0" max="150" step="1" class="eco-input text-center text-sm sm:text-base font-mono">
+                                    <button type="button" data-step-target="pisosBoxes" data-step-value="1" class="btn-stepper px-2.5 py-1.5 text-xs font-bold">+1</button>
+                                </div>
+                            </div>
+
+                            <!-- Total en Boxes (m²) Calculado Automático -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="eco-label">Total en Boxes (m²)</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="eco-input text-center text-sm sm:text-base font-mono font-bold text-cyan-400 bg-cyan-950/20 border border-cyan-500/30 flex items-center justify-center select-none app-boxes-display-box">
+                                        <span id="displayM2Boxes">0 m²</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Toggle Cambio de Punzones (Vaciado de Secadero) -->
+                        <div class="border-t border-[#30363d]/60 app-field-divider pt-3 flex justify-between items-center gap-3">
+                            <div class="pr-2">
+                                <label for="cambioPunzones" class="block text-sm font-bold text-gray-200 cursor-pointer app-label-clickable">
+                                    ¿Lleva Cambio de Punzones?
+                                </label>
+                                <span id="alertaSecadero" class="text-xs text-emerald-400 font-medium block transition-all mt-1">
+                                    Sin cambio de punzones: corte a salida de secadero (Secadero NO entra: 0 m²)
+                                </span>
+                            </div>
+                            <div class="relative inline-block w-14 align-middle select-none shrink-0">
+                                <input type="checkbox" id="cambioPunzones" class="industrial-toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer top-0 left-0">
+                                <label for="cambioPunzones" class="industrial-toggle-label block overflow-hidden cursor-pointer"></label>
+                                <div class="industrial-toggle-circle absolute block"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Módulo 3: Consumo y Ciclo de Horno -->
+                    <div class="eco-card p-4 sm:p-5">
+                        <h2 class="eco-section-title mb-3">
+                            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            Consumo y Ciclo de Horno
+                        </h2>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                            <!-- Ciclo de Quema -->
+                            <div>
+                                <label class="eco-label mb-1 block">Ciclo de Quema (Min)</label>
+                                <select id="cicloHorno" class="eco-input text-sm sm:text-base cursor-pointer"></select>
+                            </div>
+                            <!-- Consumo Real -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="eco-label">Consumo Real (m²/h)</label>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" data-step-target="consumoHorno" data-step-value="-5" class="btn-stepper px-2.5 py-1.5 text-xs font-bold">-5</button>
+                                    <input type="number" id="consumoHorno" value="850" min="500" max="1300" step="1" class="eco-input text-center text-sm sm:text-base font-mono text-orange-400">
+                                    <button type="button" data-step-target="consumoHorno" data-step-value="5" class="btn-stepper px-2.5 py-1.5 text-xs font-bold">+5</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── COLUMNA DERECHA: Monitor Central con Gauge SCADA (7 cols) ─── -->
+                <div id="panelMonitor" class="lg:col-span-7 eco-monitor-panel p-4 sm:p-6 flex flex-col justify-between relative overflow-hidden">
+
+                    <div class="scanline-overlay absolute inset-0 pointer-events-none opacity-30"></div>
+
+                    <!-- Barra de Estado -->
+                    <div class="flex justify-between items-center z-10 mb-3 sm:mb-4 border-b border-[#30363d] app-monitor-divider pb-2.5">
+                        <div class="flex items-center gap-2">
+                            <span id="statusDot" class="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-emerald-500 rounded-full"></span>
+                            <span id="statusBadgeText" class="font-bold text-emerald-400 text-[10px] sm:text-xs tracking-wider uppercase">
+                                HORNO EN QUEMA ACTIVA
+                            </span>
+                        </div>
+                        <span id="badgeExcedente" class="hidden text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">
+                            RE-PASADO
+                        </span>
+                    </div>
+
+                    <!-- Título Dinámico de Corte -->
+                    <div class="text-center z-10 mb-2">
+                        <span id="lblTituloCorte" class="text-[10px] sm:text-xs font-extrabold text-emerald-400/80 tracking-widest uppercase app-cutoff-title">
+                            HORA DE CORTE A SALIDA DE SECADERO (CAMBIO DE PRODUCTO)
+                        </span>
+                    </div>
+
+                    <!-- Alerta Re-Pasado / Exceso -->
+                    <div id="alertaRePasado" class="hidden z-10 mb-2 mx-auto max-w-lg p-2.5 rounded-xl bg-red-950/40 border border-red-500/40 text-center">
+                        <p id="msgRePasado" class="text-xs text-red-300 font-bold leading-tight">
+                            ¡Corte Inmediato! La cantidad dentro del horno ya cubre el pedido con excedente.
+                        </p>
+                    </div>
+
+                    <!-- Display Central de Hora de Corte -->
+                    <div class="text-center z-10 mb-2 sm:mb-3">
+                        <div id="horaCorteDisplay" class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight drop-shadow-lg font-mono tabular-nums eco-glow-text">
+                            --:-- Hs
+                        </div>
+                        <div id="subtleExcedente" class="hidden text-sm sm:text-base font-bold text-amber-500/80 tracking-wide mt-2 text-center"></div>
+                    </div>
+
+                    <!-- ═══ GAUGE SCADA MEDIALUNA (180° TOTALMENTE ABIERTO Y ESPACIOSO) ═══ -->
+                    <div class="flex flex-col items-center z-10 my-1 sm:my-2 w-full">
+                        <div id="gaugeContainer" class="gauge-responsive">
+                            <svg id="svgGauge" viewBox="0 0 320 180" class="w-full h-full overflow-visible">
+                                <!-- Arco de fondo Medialuna (180° superior, r=135, grosor 18px) -->
+                                <circle id="gaugeBgArc" cx="160" cy="155" r="135" fill="none" class="gauge-bg-track" stroke-width="18"
+                                    stroke-dasharray="424.12 424.12" transform="rotate(180, 160, 155)" stroke-linecap="round"/>
+
+                                <!-- Señaladores / Ticks INTERIORES (van por dentro simulando tacómetro real) -->
+                                <g id="gaugeTicks" class="gauge-tick-marks">
+                                    <!-- Ticks Mayores (cada 30°, de r=122 a r=108, apuntando hacia el interior) -->
+                                    <line x1="160" y1="33" x2="160" y2="47" stroke-width="2.5" transform="rotate(-90, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="47" stroke-width="2.5" transform="rotate(-60, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="47" stroke-width="2.5" transform="rotate(-30, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="47" stroke-width="3"   transform="rotate(0, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="47" stroke-width="2.5" transform="rotate(30, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="47" stroke-width="2.5" transform="rotate(60, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="47" stroke-width="2.5" transform="rotate(90, 160, 155)"/>
+
+                                    <!-- Ticks Menores intermedios (cada 15°, de r=122 a r=114, apuntando hacia el interior) -->
+                                    <line x1="160" y1="33" x2="160" y2="41" stroke-width="1.5" transform="rotate(-75, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="41" stroke-width="1.5" transform="rotate(-45, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="41" stroke-width="1.5" transform="rotate(-15, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="41" stroke-width="1.5" transform="rotate(15, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="41" stroke-width="1.5" transform="rotate(45, 160, 155)"/>
+                                    <line x1="160" y1="33" x2="160" y2="41" stroke-width="1.5" transform="rotate(75, 160, 155)"/>
+                                </g>
+
+                                <!-- Arco de progreso activo Medialuna (grosor 20px) -->
+                                <circle id="gaugeProgressArc" cx="160" cy="155" r="135" fill="none" stroke="url(#gaugeGradient)" stroke-width="20"
+                                    stroke-dasharray="424.12 424.12" transform="rotate(180, 160, 155)" stroke-linecap="round"
+                                    class="gauge-arc-glow" style="transition: stroke-dasharray 0.5s ease;"/>
+
+                                <!-- Gradiente para el arco -->
+                                <defs>
+                                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop id="gaugeGradStop1" offset="0%" stop-color="#10b981"/>
+                                        <stop id="gaugeGradStop2" offset="100%" stop-color="#06b6d4"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+
+                            <!-- Contenido central bajo la medialuna: 100% despejado sin encimarse -->
+                            <div class="absolute inset-0 flex flex-col items-center justify-end pb-2 sm:pb-3 pointer-events-none">
+                                <span class="text-[10px] sm:text-xs text-gray-500 font-bold uppercase tracking-wider app-gauge-label mb-0.5">Restante</span>
+                                <span id="tiempoRestante" class="font-black font-mono tabular-nums text-emerald-400 tracking-tight whitespace-nowrap drop-shadow-sm my-0.5">
+                                    --h --m --s
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Progreso -->
+                    <div class="w-full mt-2 sm:mt-3 z-10">
+                        <div class="flex justify-between text-[10px] sm:text-xs font-bold text-gray-500 mb-1.5 font-mono app-timeline-text">
+                            <span>Medición: <strong id="tl-inicio" class="text-gray-300">--:--</strong></span>
+                            <span id="progresoPct" class="text-emerald-400 font-bold">100%</span>
+                            <span><span id="lblTlFin">Corte Salida:</span> <strong id="tl-fin" class="text-emerald-400">--:--</strong></span>
+                        </div>
+                        <div class="h-2 sm:h-2.5 w-full bg-[#21262d] app-progress-track rounded-full overflow-hidden border border-[#30363d] shadow-inner">
+                            <div id="barraProgreso" class="h-full rounded-full w-full transition-all duration-500 eco-progress-bar"></div>
+                        </div>
+                    </div>
+
+                    <!-- KPIs de Proceso -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mt-3 sm:mt-4 pt-3 border-t border-[#30363d]/60 app-monitor-divider z-10">
+                        <div class="eco-kpi-card border-t-2 border-cyan-500">
+                            <span class="eco-kpi-label">Bruto Faltante</span>
+                            <span id="kpiMetrosBrutos" class="eco-kpi-value text-white">-- m²</span>
+                        </div>
+                        <div class="eco-kpi-card border-t-2 border-amber-500">
+                            <span class="eco-kpi-label">Ya en Horno y Línea</span>
+                            <span id="kpiStockDescontado" class="eco-kpi-value text-amber-400">-- m²</span>
+                        </div>
+                        <div class="eco-kpi-card border-t-2 border-emerald-500">
+                            <span class="eco-kpi-label">Neto a Producir</span>
+                            <span id="kpiMetrosNetos" class="eco-kpi-value text-emerald-400">-- m²</span>
+                        </div>
+                        <div class="eco-kpi-card border-t-2 border-orange-500">
+                            <span class="eco-kpi-label">Ritmo Horno</span>
+                            <span id="kpiHornoHora" class="eco-kpi-value text-orange-400">-- m²/h</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- ═══════ FOOTER ═══════ -->
+            <footer class="app-footer bg-[#0d1117] px-4 sm:px-6 py-2.5 border-t border-[#30363d] flex flex-wrap justify-between items-center text-[10px] sm:text-xs text-gray-500 gap-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded bg-gradient-to-br from-emerald-500 to-cyan-500 opacity-60"></div>
+                    <span>DMBE Systems &copy; 2026 &bull; CAMBIO DE PRODUCTO Planta</span>
+                </div>
+                <div class="text-[10px] text-gray-500 hidden sm:block">
+                    Planta de San Juan • Control de Cambio Sincronizado
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- Script Principal -->
+    <script src="/main.js"></script>
+</body>
+</html>

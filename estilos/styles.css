@@ -1,0 +1,817 @@
+/* ==========================================================================
+   PRODUCT-SYNC | Schneider EcoStruxure Industrial HMI Theme
+   Design System: Dual-Mode Industrial (Dark Neon & Crisp Light HMI)
+   Normativas: ISA-101 (HMI Design) & Ergonomía de Planta de Fabricación
+   ========================================================================== */
+
+/* ═══════ VARIABLES DEL SISTEMA ═══════ */
+:root {
+    --app-bg: #0d1117;
+    --container-bg: #161b22;
+    --header-bg: rgba(13, 17, 23, 0.95);
+    --panel-bg: #0d1117;
+    --card-bg: #161b22;
+    --card-border: #30363d;
+    --card-border-hover: rgba(16, 185, 129, 0.25);
+    --card-divider: rgba(48, 54, 61, 0.6);
+    --input-bg: #0d1117;
+    --input-border: #30363d;
+    --input-text: #e6edf3;
+    --text-primary: #ffffff;
+    --text-secondary: #c9d1d9;
+    --text-muted: #8b949e;
+    --text-faint: #6e7681;
+    --accent-emerald: #10b981;
+    --accent-cyan: #06b6d4;
+    --gauge-track: rgba(48, 54, 61, 0.6);
+    --gauge-ticks: rgba(139, 148, 158, 0.35);
+    --progress-track: #21262d;
+    --stepper-bg: #21262d;
+    --stepper-text: #c9d1d9;
+    --stepper-border: #30363d;
+    --badge-bg: #0d1117;
+    --badge-border: #30363d;
+}
+
+/* ═══════ PALETA MODO CLARO INDUSTRIAL ═══════
+   Inspirado en interfaces de salas de control modernas (Schneider EcoStruxure,
+   Siemens TIA Portal & Rockwell FactoryTalk).
+   Elimina fatiga visual bajo iluminación industrial de planta (luz fluorescente o natural).
+   ══════════════════════════════════════════════ */
+body.light-mode {
+    --app-bg: #eef2f6;                         /* Fondo sereno de planta, no blanco cegador */
+    --container-bg: #ffffff;                   /* Chasis central blanco industrial */
+    --header-bg: #ffffff;                      /* Encabezado limpio con alta definición */
+    --panel-bg: #f8fafc;                       /* Monitor HMI con sutil relieve slate-50 */
+    --card-bg: #ffffff;                        /* Tarjetas de parámetros en blanco puro */
+    --card-border: #dbe3ec;                    /* Bordes precisos y nítidos */
+    --card-border-hover: #10b981;              /* Resalte esmeralda al enfocar */
+    --card-divider: #e2e8f0;                   /* Separadores tenues */
+    --input-bg: #ffffff;                       /* Campo de datos en blanco */
+    --input-border: #cbd5e1;                   /* Borde de entrada bien definido */
+    --input-text: #0f172a;                     /* Tipografía técnica slate-900 de máximo contraste */
+    --text-primary: #0f172a;                   /* Texto principal negro técnico */
+    --text-secondary: #334155;                 /* Etiquetas y rótulos en slate-700 */
+    --text-muted: #64748b;                     /* Textos auxiliares legibles slate-500 */
+    --text-faint: #94a3b8;                     /* Detalles tenues */
+    --accent-emerald: #047857;                 /* Esmeralda industrial con contraste AAA */
+    --accent-cyan: #0369a1;                    /* Cian industrial con alto contraste */
+    --gauge-track: #e2e8f0;                    /* Pista del tacómetro en gris neutro limpio */
+    --gauge-ticks: #cbd5e1;                    /* Ticks legibles sin oscurecer */
+    --progress-track: #e2e8f0;                 /* Pista de progreso clara */
+    --stepper-bg: #f8fafc;                     /* Botones +/- táctiles limpios */
+    --stepper-text: #0f172a;                   /* Números de ajuste en negro nítido */
+    --stepper-border: #cbd5e1;                 /* Bordes de botones */
+    --badge-bg: #f1f5f9;                       /* Fondos de indicadores */
+    --badge-border: #cbd5e1;                   /* Bordes de indicadores */
+}
+
+/* ═══════ BASE Y TACTILIDAD ═══════ */
+html {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100%;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body.light-mode {
+    background-color: var(--app-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
+
+/* ═══════ ESTRUCTURA Y CONTENEDORES ═══════ */
+.app-master-container {
+    transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+body.light-mode .app-master-container {
+    background-color: var(--container-bg) !important;
+    border-color: var(--card-border) !important;
+    box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.03) !important;
+}
+
+/* ═══════ HEADER ═══════ */
+body.light-mode .app-header {
+    background-color: var(--header-bg) !important;
+    border-bottom-color: var(--card-border) !important;
+}
+
+body.light-mode .app-title {
+    color: #0f172a !important;
+}
+
+body.light-mode .app-subtitle {
+    color: #64748b !important;
+}
+
+body.light-mode .app-badge-plant {
+    background-color: #ecfdf5 !important;
+    color: #047857 !important;
+    border-color: #a7f3d0 !important;
+}
+
+body.light-mode .app-format-label {
+    color: #64748b !important;
+}
+
+body.light-mode .app-format-selector {
+    background-color: #f1f5f9 !important;
+    border-color: var(--card-border) !important;
+}
+
+body.light-mode .app-clock-box {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+body.light-mode #reloj-global {
+    color: #047857 !important;
+}
+
+body.light-mode .app-theme-btn {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
+}
+
+body.light-mode .app-theme-btn:hover {
+    color: #059669 !important;
+    border-color: #10b981 !important;
+}
+
+/* ═══════ FORMAT SELECTOR TABS ═══════ */
+.format-tab-btn {
+    color: #8b949e;
+    background: transparent;
+}
+
+.format-tab-btn.active-format {
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+}
+
+body.light-mode .format-tab-btn {
+    color: #64748b;
+}
+
+body.light-mode .format-tab-btn:hover {
+    color: #0f172a;
+}
+
+body.light-mode .format-tab-btn.active-format {
+    background: linear-gradient(135deg, #059669, #0891b2) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25) !important;
+}
+
+/* ═══════ GRID PRINCIPAL ═══════ */
+body.light-mode .app-main-grid {
+    background-color: #f8fafc !important;
+}
+
+/* ═══════ TARJETAS INDUSTRIALES (ECO-CARD) ═══════ */
+.eco-card {
+    background-color: var(--card-bg);
+    border-radius: 1rem;
+    border: 1px solid var(--card-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.eco-card:hover {
+    border-color: var(--card-border-hover);
+}
+
+body.light-mode .eco-card {
+    background-color: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+}
+
+body.light-mode .eco-card:hover {
+    border-color: #cbd5e1 !important;
+}
+
+.eco-section-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+body.light-mode .eco-section-title {
+    color: #475569 !important;
+}
+
+.eco-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #c9d1d9;
+}
+
+body.light-mode .eco-label {
+    color: #334155 !important;
+}
+
+body.light-mode .app-badge-info {
+    background-color: #ecfdf5 !important;
+    color: #047857 !important;
+    border-color: #a7f3d0 !important;
+}
+
+body.light-mode .app-btn-ahora {
+    color: #059669 !important;
+}
+
+body.light-mode .app-btn-ahora:hover {
+    color: #047857 !important;
+}
+
+body.light-mode .app-field-divider {
+    border-top-color: #e2e8f0 !important;
+}
+
+body.light-mode .app-quality-subtext {
+    color: #047857 !important;
+}
+
+body.light-mode .app-unit-label {
+    color: #64748b !important;
+}
+
+body.light-mode .app-boxes-display {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+body.light-mode .app-boxes-badge {
+    background-color: #fef3c7 !important;
+    color: #b45309 !important;
+    border-color: #fde68a !important;
+}
+
+body.light-mode .app-boxes-display-box {
+    background-color: #f0f9ff !important;
+    border-color: #bae6fd !important;
+}
+
+body.light-mode .app-boxes-label {
+    color: #64748b !important;
+}
+
+body.light-mode #displayM2Boxes {
+    color: #0284c7 !important;
+}
+
+body.light-mode .app-label-clickable {
+    color: #0f172a !important;
+}
+
+body.light-mode .app-oven-min-label {
+    color: #64748b !important;
+}
+
+/* ═══════ INPUTS INDUSTRIALES ═══════ */
+.eco-input {
+    width: 100%;
+    height: 42px;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-family: ui-monospace, SFMono-Regular, 'Cascadia Code', 'Consolas', monospace;
+    font-weight: 700;
+    color: var(--input-text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.eco-input:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+body.light-mode .eco-input {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+body.light-mode .eco-input:focus {
+    border-color: #059669 !important;
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15) !important;
+}
+
+body.light-mode #consumoHorno {
+    color: #c2410c !important;
+}
+
+/* ═══════ STEPPER BUTTONS ═══════ */
+.btn-stepper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    background-color: #21262d;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    transition: all 0.15s ease-in-out;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+.btn-stepper:hover {
+    background-color: #30363d;
+    border-color: #484f58;
+}
+
+.btn-stepper:active {
+    transform: scale(0.93);
+    background-color: #10b981;
+    border-color: #10b981;
+    color: white;
+}
+
+body.light-mode .btn-stepper {
+    background-color: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+}
+
+body.light-mode .btn-stepper:hover {
+    background-color: #e2e8f0 !important;
+    border-color: #94a3b8 !important;
+}
+
+body.light-mode .btn-stepper:active {
+    background-color: #059669 !important;
+    border-color: #059669 !important;
+    color: #ffffff !important;
+}
+
+/* ═══════ TOGGLE SWITCH INDUSTRIAL ═══════ */
+.industrial-toggle-checkbox:checked {
+    right: 0;
+    border-color: #10b981;
+    background-color: #10b981;
+}
+
+.industrial-toggle-checkbox:checked + .industrial-toggle-label {
+    background-color: #10b981;
+}
+
+.industrial-toggle-checkbox {
+    right: 0;
+    z-index: 10;
+    border-color: #484f58;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
+}
+
+.industrial-toggle-label {
+    width: 3.5rem;
+    height: 1.85rem;
+    background-color: #30363d;
+    border-radius: 9999px;
+    transition: background-color 0.25s ease;
+}
+
+.industrial-toggle-circle {
+    width: 1.45rem;
+    height: 1.45rem;
+    background-color: #ffffff;
+    border-radius: 50%;
+    top: 0.2rem;
+    left: 0.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.industrial-toggle-checkbox:checked ~ .industrial-toggle-circle {
+    transform: translateX(1.65rem);
+}
+
+body.light-mode .industrial-toggle-label {
+    background-color: #cbd5e1;
+}
+
+body.light-mode .industrial-toggle-checkbox {
+    border-color: #94a3b8;
+}
+
+body.light-mode .industrial-toggle-checkbox:checked {
+    border-color: #059669;
+    background-color: #059669;
+}
+
+body.light-mode .industrial-toggle-checkbox:checked + .industrial-toggle-label {
+    background-color: #059669;
+}
+
+/* ═══════ MONITOR PANEL SCADA ═══════ */
+.eco-monitor-panel {
+    background: #0d1117;
+    border: 2px solid rgba(16, 185, 129, 0.25);
+    border-radius: 1rem;
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.05), 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+body.light-mode .eco-monitor-panel {
+    background: #ffffff !important;
+    border: 2px solid #059669;
+    box-shadow: 0 0 25px rgba(5, 150, 105, 0.09), 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+body.light-mode .app-monitor-divider {
+    border-color: #e2e8f0 !important;
+}
+
+body.light-mode .app-cutoff-title {
+    color: #047857 !important;
+}
+
+/* ═══════ HORA CENTRAL DE CORTE ═══════ */
+.eco-glow-text {
+    text-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+}
+
+body.light-mode #horaCorteDisplay {
+    color: #0f172a !important;
+    text-shadow: 0 2px 4px rgba(15, 23, 42, 0.08) !important;
+}
+
+body.light-mode #horaCorteDisplay.text-red-500 {
+    color: #dc2626 !important;
+    text-shadow: 0 2px 6px rgba(220, 38, 38, 0.2) !important;
+}
+
+/* ═══════ SCADA GAUGE MEDIALUNA 180° ═══════ */
+.gauge-responsive {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: 180px;
+    margin: 0 auto;
+}
+
+.gauge-bg-track {
+    stroke: rgba(48, 54, 61, 0.6);
+}
+
+body.light-mode .gauge-bg-track {
+    stroke: #e2e8f0 !important;
+}
+
+.gauge-tick-marks line {
+    stroke: rgba(139, 148, 158, 0.45);
+}
+
+body.light-mode .gauge-tick-marks line {
+    stroke: #94a3b8 !important;
+}
+
+#tiempoRestante {
+    font-size: clamp(1.3rem, 3.2vw, 1.85rem);
+    line-height: 1.15;
+}
+
+.gauge-arc-glow {
+    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.4));
+    transition: stroke-dasharray 0.5s ease, filter 0.4s ease;
+}
+
+body.light-mode .gauge-arc-glow {
+    filter: drop-shadow(0 0 6px rgba(5, 150, 105, 0.35)) !important;
+}
+
+body.light-mode .app-gauge-label {
+    color: #64748b !important;
+}
+
+body.light-mode .app-gauge-subtext {
+    color: #64748b !important;
+}
+
+body.light-mode .app-gauge-subtext strong {
+    color: #0f172a !important;
+}
+
+/* ═══════ TIMELINE & PROGRESS BAR ═══════ */
+.eco-progress-bar {
+    background: linear-gradient(90deg, #10b981, #06b6d4);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+body.light-mode .eco-progress-bar {
+    background: linear-gradient(90deg, #059669, #0891b2) !important;
+    box-shadow: 0 0 6px rgba(5, 150, 105, 0.25) !important;
+}
+
+body.light-mode .app-progress-track {
+    background-color: #e2e8f0 !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-mode .app-timeline-text {
+    color: #64748b !important;
+}
+
+body.light-mode #tl-inicio {
+    color: #0f172a !important;
+}
+
+body.light-mode #tl-fin {
+    color: #047857 !important;
+}
+
+body.light-mode #progresoPct {
+    color: #047857 !important;
+}
+
+/* ═══════ KPI CARDS ═══════ */
+.eco-kpi-card {
+    background: #161b22;
+    padding: 0.5rem 0.625rem;
+    border-radius: 0.75rem;
+    border: 1px solid #30363d;
+    text-align: center;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.eco-kpi-label {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+}
+
+.eco-kpi-value {
+    font-size: 0.875rem;
+    font-family: ui-monospace, SFMono-Regular, 'Cascadia Code', 'Consolas', monospace;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+body.light-mode .eco-kpi-card {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03) !important;
+}
+
+body.light-mode .eco-kpi-label {
+    color: #64748b !important;
+}
+
+body.light-mode .eco-kpi-value {
+    color: #0f172a !important;
+}
+
+body.light-mode #kpiMetrosBrutos {
+    color: #0f172a !important;
+}
+
+body.light-mode #kpiStockDescontado {
+    color: #b45309 !important;
+}
+
+body.light-mode #kpiMetrosNetos {
+    color: #047857 !important;
+}
+
+body.light-mode #kpiHornoHora {
+    color: #c2410c !important;
+}
+
+/* ═══════ SCANLINE OVERLAY ═══════ */
+.scanline-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0) 50%,
+        rgba(0, 0, 0, 0.03) 50%,
+        rgba(0, 0, 0, 0.03)
+    );
+    background-size: 100% 4px;
+}
+
+body.light-mode .scanline-overlay {
+    opacity: 0.05 !important;
+}
+
+/* ═══════ FOOTER ═══════ */
+body.light-mode .app-footer {
+    background-color: #ffffff !important;
+    border-top-color: #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+/* ═══════ ALARMAS SCADA & RESALTES DINÁMICOS ═══════ */
+@keyframes eco-flash-critical {
+    0%, 100% {
+        border-color: #ef4444;
+        box-shadow: 0 0 25px rgba(239, 68, 68, 0.25), 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        border-color: #b91c1c;
+        box-shadow: 0 0 50px rgba(239, 68, 68, 0.5), 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+}
+
+@keyframes eco-flash-warning {
+    0%, 100% {
+        border-color: #f59e0b;
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.2), 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        border-color: #d97706;
+        box-shadow: 0 0 40px rgba(245, 158, 11, 0.35), 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.animate-eco-critical,
+.state-corte-ya,
+.state-corte-inminente {
+    animation: eco-flash-critical 1.2s infinite ease-in-out;
+}
+
+.animate-eco-warning,
+.state-precaucion {
+    animation: eco-flash-warning 1.8s infinite ease-in-out;
+}
+
+/* ═══════ LUZ DE ALARMA INTERMITENTE EN MODO CLARO ═══════ */
+@keyframes eco-flash-critical-light {
+    0%, 100% {
+        border-color: #dc2626 !important;
+        border-width: 6px !important;
+        box-shadow: 0 0 0 8px rgba(220, 38, 38, 0.4), 0 0 40px rgba(220, 38, 38, 0.6) !important;
+    }
+    50% {
+        border-color: #b91c1c !important;
+        border-width: 8px !important;
+        box-shadow: 0 0 0 12px rgba(185, 28, 28, 0.6), 0 0 80px rgba(185, 28, 28, 0.9) !important;
+    }
+}
+
+@keyframes eco-flash-warning-light {
+    0%, 100% {
+        border-color: #d97706 !important;
+        box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25), 0 0 25px rgba(217, 119, 6, 0.35) !important;
+    }
+    50% {
+        border-color: #f59e0b !important;
+        box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.4), 0 0 45px rgba(245, 158, 11, 0.6) !important;
+    }
+}
+
+body.light-mode .eco-monitor-panel.animate-eco-critical,
+body.light-mode .eco-monitor-panel.state-corte-ya,
+body.light-mode .eco-monitor-panel.state-corte-inminente {
+    border-color: #dc2626 !important;
+    animation: eco-flash-critical-light 0.7s infinite ease-in-out !important;
+}
+
+body.light-mode .eco-monitor-panel.animate-eco-warning,
+body.light-mode .eco-monitor-panel.state-precaucion {
+    border-color: #d97706 !important;
+    animation: eco-flash-warning-light 1.5s infinite ease-in-out !important;
+}
+
+/* ═══════ SOBRESCRIBIR COLORES DINÁMICOS EN MODO CLARO ═══════ */
+body.light-mode .text-emerald-400 {
+    color: #047857 !important;
+}
+
+body.light-mode .text-amber-400 {
+    color: #b45309 !important;
+}
+
+body.light-mode .text-orange-400 {
+    color: #c2410c !important;
+}
+
+body.light-mode .text-cyan-400 {
+    color: #0369a1 !important;
+}
+
+/* Letras y Alertas en Rojo en Modo Claro (Carmesí Profundo y Ultra Legible) */
+body.light-mode .text-red-400,
+body.light-mode .text-red-500,
+body.light-mode .text-red-600 {
+    color: #b91c1c !important; /* Rojo industrial nítido sin palidez */
+}
+
+body.light-mode #horaCorteDisplay.text-red-500 {
+    color: #b91c1c !important;
+    text-shadow: 0 0 20px rgba(185, 28, 28, 0.3) !important;
+}
+
+body.light-mode #alertaRePasado {
+    background-color: #fef2f2 !important;
+    border: 1.5px solid #f87171 !important;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.12) !important;
+}
+
+body.light-mode #msgRePasado {
+    color: #991b1b !important; /* Rojo oscuro sobre fondo rosa suave */
+}
+
+body.light-mode #badgeExcedente {
+    background-color: #fee2e2 !important;
+    color: #991b1b !important;
+    border: 1px solid #f87171 !important;
+}
+
+body.light-mode .app-transit-box {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* ═══════ RESPONSIVE BREAKPOINTS ═══════ */
+@media (max-width: 359px) {
+    .gauge-responsive {
+        width: 220px;
+        height: 145px;
+    }
+    .eco-kpi-label {
+        font-size: 0.5625rem;
+    }
+    .eco-kpi-value {
+        font-size: 0.75rem;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 639px) {
+    .gauge-responsive {
+        width: 250px;
+        height: 155px;
+    }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+    .gauge-responsive {
+        width: 270px;
+        height: 165px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .gauge-responsive {
+        width: 290px;
+        height: 175px;
+    }
+}
+
+@media (min-width: 1536px) {
+    .gauge-responsive {
+        width: 330px;
+        height: 200px;
+    }
+    .eco-kpi-value {
+        font-size: 1rem;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .gauge-responsive {
+        width: 220px;
+        height: 135px;
+    }
+}
