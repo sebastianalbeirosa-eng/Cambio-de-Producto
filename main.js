@@ -2,9 +2,9 @@
  * ==============================================================================
  * PRODUCT-SYNC | Plataforma de Control Predictivo de Transición Industrial
  * Ecosistema DMBE Systems
- * 
+ *
  * Diseño: Schneider EcoStruxure Neon + Temporizador SCADA Circular (Gauge)
- * 
+ *
  * Lógica de Planta (Gobernada por Ciclo de Horno y Rendimiento de Calidad):
  * - El horno es el proceso continuo ininterrumpido que rige el cambio de producto.
  * - Variables determinantes:
@@ -196,7 +196,7 @@ class IndustrialSecurityValidator {
 class ProductionCalculationEngine {
     /**
      * Calcula la hora exacta de corte de línea gobernada por el consumo del horno.
-     * 
+     *
      * Reglas Matemáticas Reales de Planta Cerámica:
      * 1. Compensación de Calidad:
      *    Metros Brutos Necesarios = Metros Faltantes 1ra / (Calidad% / 100).
@@ -665,44 +665,37 @@ class SincroCambioApp {
             this.dom.displayConsumoHornoMin.textContent = `(${result.consumoHornoM2Minuto.toFixed(2)} m²/min)`;
         }
 
-        // Manejo de Re-pasado / Exceso de producción
-        if (result.esRePasado) {
-            // Se eliminan los mensajes textuales de "Re-pasado"
-            if (this.dom.badgeExcedente) {
-                this.dom.badgeExcedente.classList.add('hidden');
+        // Los carteles textuales de "Re-pasado" se mantienen ocultos
+        if (this.dom.badgeExcedente) {
+            this.dom.badgeExcedente.classList.add('hidden');
+        }
+        if (this.dom.alertaRePasado) {
+            this.dom.alertaRePasado.classList.add('hidden');
+        }
+
+        // Estado del secadero y título dinámico: se actualiza SIEMPRE,
+        // también cuando el cálculo da re-pasado, para que no quede texto viejo.
+        if (result.m2Secadero > 0) {
+            if (this.dom.alertaSecadero) {
+                this.dom.alertaSecadero.textContent = `Con cambio de punzones: se vacía secadero (+${result.m2Secadero} m² entran al cálculo)`;
+                this.dom.alertaSecadero.className = 'text-xs text-amber-400 font-semibold block transition-all mt-1';
             }
-            if (this.dom.alertaRePasado) {
-                this.dom.alertaRePasado.classList.add('hidden');
+            if (this.dom.lblTituloCorte) {
+                this.dom.lblTituloCorte.textContent = 'HORA EXACTA DE CORTE POR CAMBIO DE PUNZONES (VACIADO DE SECADERO)';
+            }
+            if (this.dom.lblTlFin) {
+                this.dom.lblTlFin.textContent = 'Corte Secadero:';
+            }
+        } else {
+            if (this.dom.alertaSecadero) {
+                this.dom.alertaSecadero.textContent = 'Sin cambio de punzones: corte a salida de secadero (Secadero NO entra en el cálculo: 0 m²)';
+                this.dom.alertaSecadero.className = 'text-xs text-emerald-400 font-medium block transition-all mt-1';
             }
             if (this.dom.lblTituloCorte) {
                 this.dom.lblTituloCorte.textContent = 'HORA DE CORTE A SALIDA DE SECADERO (CAMBIO DE PRODUCTO)';
             }
-        } else {
-            if (this.dom.badgeExcedente) {
-                this.dom.badgeExcedente.classList.add('hidden');
-            }
-            if (this.dom.alertaRePasado) {
-                this.dom.alertaRePasado.classList.add('hidden');
-            }
-            // Estado del secadero y título dinámico estándar
-            if (result.m2Secadero > 0) {
-                this.dom.alertaSecadero.textContent = `Con cambio de punzones: se vacía secadero (+${result.m2Secadero} m² entran al cálculo)`;
-                this.dom.alertaSecadero.className = 'text-xs text-amber-400 font-semibold block transition-all mt-1';
-                if (this.dom.lblTituloCorte) {
-                    this.dom.lblTituloCorte.textContent = 'HORA EXACTA DE CORTE POR CAMBIO DE PUNZONES (VACIADO DE SECADERO)';
-                }
-                if (this.dom.lblTlFin) {
-                    this.dom.lblTlFin.textContent = 'Corte Secadero:';
-                }
-            } else {
-                this.dom.alertaSecadero.textContent = 'Sin cambio de punzones: corte a salida de secadero (Secadero NO entra en el cálculo: 0 m²)';
-                this.dom.alertaSecadero.className = 'text-xs text-emerald-400 font-medium block transition-all mt-1';
-                if (this.dom.lblTituloCorte) {
-                    this.dom.lblTituloCorte.textContent = 'HORA DE CORTE A SALIDA DE SECADERO (CAMBIO DE PRODUCTO)';
-                }
-                if (this.dom.lblTlFin) {
-                    this.dom.lblTlFin.textContent = 'Corte Salida:';
-                }
+            if (this.dom.lblTlFin) {
+                this.dom.lblTlFin.textContent = 'Corte Salida:';
             }
         }
 

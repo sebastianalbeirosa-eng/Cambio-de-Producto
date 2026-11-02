@@ -381,22 +381,13 @@ body.light-mode .btn-stepper:active {
     color: #ffffff !important;
 }
 
-/* ═══════ TOGGLE SWITCH INDUSTRIAL ═══════ */
-.industrial-toggle-checkbox:checked {
-    right: 0;
-    border-color: #10b981;
-    background-color: #10b981;
-}
-
-.industrial-toggle-checkbox:checked + .industrial-toggle-label {
-    background-color: #10b981;
-}
-
+/* ═══════ TOGGLE SWITCH INDUSTRIAL ═══════
+   El checkbox real va invisible (opacity 0) y cubre todo el interruptor para
+   recibir el click. Lo que se ve es la pista (label) y el círculo blanco que
+   se desliza cuando el checkbox está tildado. */
 .industrial-toggle-checkbox {
-    right: 0;
     z-index: 10;
-    border-color: #484f58;
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
+    margin: 0;
 }
 
 .industrial-toggle-label {
@@ -405,6 +396,10 @@ body.light-mode .btn-stepper:active {
     background-color: #30363d;
     border-radius: 9999px;
     transition: background-color 0.25s ease;
+}
+
+.industrial-toggle-checkbox:checked + .industrial-toggle-label {
+    background-color: #10b981;
 }
 
 .industrial-toggle-circle {
@@ -425,15 +420,6 @@ body.light-mode .btn-stepper:active {
 
 body.light-mode .industrial-toggle-label {
     background-color: #cbd5e1;
-}
-
-body.light-mode .industrial-toggle-checkbox {
-    border-color: #94a3b8;
-}
-
-body.light-mode .industrial-toggle-checkbox:checked {
-    border-color: #059669;
-    background-color: #059669;
 }
 
 body.light-mode .industrial-toggle-checkbox:checked + .industrial-toggle-label {

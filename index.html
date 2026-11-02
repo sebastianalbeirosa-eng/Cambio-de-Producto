@@ -15,7 +15,9 @@
 
     <!-- Dependencias UI -->
     <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DR1Toe4c.css">
+
+    <!-- Estilos propios (van después de Tailwind para poder pisar lo que haga falta) -->
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body class="bg-[#0d1117] min-h-screen text-gray-100 font-sans no-select app-body">
 
@@ -30,7 +32,7 @@
                     <div>
                         <h1 class="text-lg sm:text-xl font-black text-white tracking-tight flex items-center gap-2 app-title">
                             CAMBIO DE PRODUCTO
-                            <span class="text-[10px] sm:text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 sm:px-2 py-0.5 rounded font-mono font-bold hidden xs:inline app-badge-plant">HORNO-PLANTA</span>
+                            <span class="text-[10px] sm:text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-1.5 sm:px-2 py-0.5 rounded font-mono font-bold hidden sm:inline app-badge-plant">HORNO-PLANTA</span>
                         </h1>
                         <p class="text-[10px] sm:text-xs text-gray-500 font-medium uppercase tracking-wider app-subtitle">Control de Cambio Sincronizado</p>
                     </div>
@@ -159,8 +161,9 @@
                                     Sin cambio de punzones: corte a salida de secadero (Secadero NO entra: 0 m²)
                                 </span>
                             </div>
+                            <!-- El checkbox real va invisible y cubre todo el interruptor; lo que se ve es el label (pista) y el círculo -->
                             <div class="relative inline-block w-14 align-middle select-none shrink-0">
-                                <input type="checkbox" id="cambioPunzones" class="industrial-toggle-checkbox absolute block w-7 h-7 rounded-full bg-white border-4 appearance-none cursor-pointer top-0 left-0">
+                                <input type="checkbox" id="cambioPunzones" class="industrial-toggle-checkbox absolute block w-full h-full m-0 opacity-0 appearance-none cursor-pointer top-0 left-0">
                                 <label for="cambioPunzones" class="industrial-toggle-label block overflow-hidden cursor-pointer"></label>
                                 <div class="industrial-toggle-circle absolute block"></div>
                             </div>
